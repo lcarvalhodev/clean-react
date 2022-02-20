@@ -10,9 +10,15 @@ const Login: React.FC = () => {
         </header>
         <form className={Styles.form}>
           <h2>Login</h2>
-          <input type="email" name="email" placeholder="Digite seu email"/>
-          <input type="password" name="password" placeholder="Digite sua senha"/>
-          <button type="submit">Entrar</button>
+          <div className={Styles.inputWrap}>
+            <input type="email" name="email" placeholder="Digite seu email"/>
+            <span className={Styles.status}>🔴</span>
+          </div>
+          <div className={Styles.inputWrap}>
+            <input type="password" name="password" placeholder="Digite sua senha"/>
+            <span className={Styles.status}>🔴</span>
+          </div>
+          <button className={Styles.submit} type="submit">Entrar</button>
         </form>
         <footer className={Styles.footer}/>
     </div>
