@@ -1,33 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Styles from './login-styles.scss'
-import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
+import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 import Context from '@/presentation/contexts/form/form-context'
+import { Validation } from '@/presentation/protocols/validation'
 
-const Login: React.FC = () => {
-  const [state] = useState({
-    isLoading: false
-  })
+type Props = {
+  validation: Validation
+}
 
-  const [errorState] = useState({
-    email: 'Campo obrigatório',
-    password: 'Campo obrigatório',
-    main: ''
+const Login: React.FC<Props> = ({ validation }: Props) => {
+  const [state, setState] = useState({
+    isLoading: false,
+    email: '',
+    emailError: 'Campo obrigatório',
+    passwordError: 'Campo obrigatório',
+    mainError: ''
   })
+  useEffect(() => {
+    validation.validate({ email: state.email })
+  }, [state.email])
 
   return (
     <div className={Styles.login}>
-        <LoginHeader />
-        <Context.Provider value={{ state, errorState }}>
-          <form className={Styles.form}>
-            <h2>Login</h2>
-            <Input type="email" name="email" placeholder="Digite seu email" />
-            <Input type="password" name="password" placeholder="Digite sua senha" />
-            <button data-testid="submit" disabled className={Styles.submit} type="submit">Entrar</button>
-            <span className={Styles.link}>Criar conta</span>
-            <FormStatus />
-          </form>
-        </Context.Provider>
-        <Footer />
+      <LoginHeader />
+      <Context.Provider value={ { state, setState }}>
+        <form className={Styles.form}>
+          <h2>Login</h2>
+          <Input type="email" name="email" placeholder="Digite seu e-mail" />
+          <Input type="password" name="password" placeholder="Digite sua senha" />
+          <button data-testid="submit" disabled className={Styles.submit} type="submit">Entrar</button>
+          <span className={Styles.link}>Criar conta</span>
+          <FormStatus />
+        </form>
+      </Context.Provider>
+      <Footer />
     </div>
   )
 }
