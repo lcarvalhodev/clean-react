@@ -156,6 +156,8 @@ describe('Login Component', () => {
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+    expect(window.history.length).toBe(1)
+    expect(window.location.pathname).toBe('/')
   })
 
   test('Should go to Signup page when click on Criar Conta ', async () => {
